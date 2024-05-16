@@ -1,6 +1,6 @@
 resource "digitalocean_app" "laravel-sample" {
   spec {
-    name   = "laravel-sample"
+    name   = "laravel-sample-new"
     region = "ams"
 
     service {
@@ -22,4 +22,15 @@ resource "digitalocean_app" "laravel-sample" {
       production = true
     }
   }
+}
+
+# Create firewall rule for database replica
+# Force database firewall provisioning after app creation
+resource "digitalocean_database_firewall" "db_firewall" {
+cluster_id = "79219163-4d0d-4781-bd77-e07633e3e3f8"
+
+rule {
+  type = "app"
+  value = digitalocean_app.laravel-sample.id
+}
 }
