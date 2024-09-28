@@ -1,36 +1,22 @@
-resource "digitalocean_app" "laravel-sample" {
+resource "digitalocean_app" "vite-sample" {
   spec {
-    name   = "laravel-sample-new"
+    name   = "titan"
     region = "ams"
 
     service {
-      name               = "laravel"
-      environment_slug   = "php"
+      name               = "titan"
       instance_count     = 1
       instance_size_slug = "professional-xs"
+      http_port = "3000"
 
-      git {
-        repo_clone_url = "https://github.com/techswarn/bradtraversy-laravel-sample"
-        branch         = "main"
+      image {
+        registry_type = "DOCR"
+        repository = "titan"
+        tag = "latest"
+        deploy_on_push {
+          enabled = "true"
+        }
       }
     }
-
-    database {
-      name       = "db-mysql-blr"
-      cluster_name = "db-mysql-blr"
-      engine     = "MYSQL"
-      production = true
-    }
   }
-}
-
-# Create firewall rule for database replica
-# Force database firewall provisioning after app creation
-resource "digitalocean_database_firewall" "db_firewall" {
-cluster_id = "79219163-4d0d-4781-bd77-e07633e3e3f8"
-
-rule {
-  type = "app"
-  value = digitalocean_app.laravel-sample.id
-}
 }
