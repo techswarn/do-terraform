@@ -2,6 +2,12 @@ resource "digitalocean_app" "laravel-sample" {
   spec {
     name   = "laravel-sample-new"
     region = "ams"
+    domain {
+      name = "mangalorerealty.com"
+      type = "PRIMARY"
+      wildcard = true
+      zone = "mangalorerealty.com"
+    }
 
     service {
       name               = "laravel"
